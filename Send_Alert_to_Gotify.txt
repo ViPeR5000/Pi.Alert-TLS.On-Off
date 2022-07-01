@@ -1,0 +1,14 @@
+Intall https://github.com/Haecky/gotify-smtp Plugin
+
+Edit:  pialert\config\pialert.conf
+
+SMTP_SERVER       = 'IP gotify server'
+SMTP_PORT         = 1025
+SMTP_SKIP_TLS	    = True
+SMTP_SKIP_LOGIN	  = False
+SMTP_USER         = 'Gotify User'
+SMTP_PASS         = 'Gotify User PW'
+
+REPORT_MAIL       = True
+REPORT_FROM       = 'Pi.Alert <' + SMTP_USER +'>'
+REPORT_TO         = 'alert@gotify.com'
