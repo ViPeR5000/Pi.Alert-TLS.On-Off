@@ -253,7 +253,7 @@ install_pihole() {
 
   print_msg "- Installing Pi-hole..."
   print_msg "  - Pi-hole has its own logfile"
-  curl -sSL https://install.pi-hole.net | bash
+  curl -sSL https://install.pi-hole.net | PIHOLE_SKIP_OS_CHECK=true sudo -E bash
   print_msg ""
   PIHOLE_ACTIVE=true
 }
