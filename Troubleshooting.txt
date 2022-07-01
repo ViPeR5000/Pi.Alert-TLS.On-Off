@@ -1,0 +1,4 @@
+apt install curl
+apt install sudo
+
+curl -sSL https://install.pi-hole.net 14 | PIHOLE_SKIP_OS_CHECK=true sudo -E bash
