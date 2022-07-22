@@ -72,14 +72,12 @@ A web frontal that allows:
 
 With the work of [jokob-sk/Pi.Alert](https://github.com/jokob-sk/Pi.Alert) and own extensions, the new maintenance page was added with various possibilities for maintenance and settings:
   - Status Infos (active scans, database size, backup counter)
-				  
   - Theme Selection (blue, red, green, yellow, black, purple)
-  - Language Selection (english, german)
+  - Language Selection (english, german, spanish)
   - Light/Dark-Mode Switch
   - Pause arp-scan
   - DB maintenance tools
   - DB Backup and Restore
-																				
 
 ![Maintain screen dark][maintain_dark]
 
@@ -89,10 +87,10 @@ Initially designed to run on a Raspberry Pi, probably it can run on many other
 Linux distributions.
 
 - One-step Automated Install:
-  #### `curl -sSL https://github.com/Haecky/Pi.Alert-TLS.On-Off/raw/main/install/pialert_install.sh | bash`
+  #### `curl -sSL https://github.com/pucherot/Pi.Alert/raw/main/install/pialert_install.sh | bash`
 
-														
-																												
+- One-step Automated Install (forked) without Webserver:
+  #### `curl -sSL https://github.com/leiweibau/Pi.Alert/raw/main/install/pialert_install_no_webserver.sh | bash`
 
 - [Installation Guide (step by step)](docs/INSTALL.md)
 
@@ -100,7 +98,7 @@ Linux distributions.
 # Update
 <!--- --------------------------------------------------------------------- --->
 - One-step Automated Update:
-  #### `curl -sSL https://github.com/Haecky/Pi.Alert-TLS.On-Off/raw/main/install/pialert_update.sh | bash`
+  #### `curl -sSL https://github.com/pucherot/Pi.Alert/raw/main/install/pialert_update.sh | bash`
 
 # Uninstall process
 <!--- --------------------------------------------------------------------- --->
@@ -163,3 +161,4 @@ Linux distributions.
 [report2]: ./docs/img/4_report_2.jpg          "Report sample 2"
 [main_dark]: /docs/img/1_devices_dark.jpg     "Main screen dark"
 [maintain_dark]: /docs/img/5_maintain.jpg     "Maintain screen dark"
+
