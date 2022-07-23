@@ -4,23 +4,39 @@ session_start();
 if ($_REQUEST['action'] == 'logout') {
   session_destroy();
   header('Location: /pialert/index.php');
-//  session_start();
-//  $_SESSION["login"] = 236789046202545614837645948;
 }
-
+##################################################
+## Login Processing start
+##################################################
 $config_file = "../config/pialert.conf";
 $config_file_lines = file($config_file);
+
+###################################
+## PIALERT_WEB_PROTECTION FALSE
+###################################
+
+$config_file_lines_bypass = array_values(preg_grep('/^PIALERT_WEB_PROTECTION\s.*/', $config_file_lines));
+$protection_line = explode("=", $config_file_lines_bypass[0]);
+$Pia_WebProtection = strtolower(trim($protection_line[1]));
+
+if ($Pia_WebProtection == 'false')
+  {
+      header('Location: /pialert/devices.php');
+      $_SESSION["login"] = 1;
+      exit;
+  }
+
+###################################
+## PIALERT_WEB_PROTECTION TRUE
+###################################
+
 $config_file_lines = array_values(preg_grep('/^PIALERT_WEB_PASSWORD\s.*/', $config_file_lines));
-//print_r($password_line);
 $password_line = explode("'", $config_file_lines[0]);
 $Pia_Password = $password_line[1];
-//echo $Pia_Password;
 
 if ($Pia_Password == hash('sha256',$_POST["loginpassword"]))
   {
       header('Location: /pialert/devices.php');
-      # Userdaten korrekt - User ist eingeloggt
-      # Login merken !
       $_SESSION["login"] = 1;
   }
 
@@ -31,7 +47,13 @@ if ($_SESSION["login"] == 1)
 
 if ($_SESSION["login"] != 1)
   {
-      if ($Pia_Password == '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92') {$login_info = 'Defaultpassword "123456" is still active';}
+      if (file_exists('../db/setting_darkmode')) {$ENABLED_DARKMODE = True;}
+      if ($Pia_Password == '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92') {$login_info = 'Defaultpassword "123456" is still active';
+  }
+
+##################################################
+## Login Processing end
+##################################################
 ?>
 
 <!DOCTYPE html>
@@ -56,19 +78,20 @@ if ($_SESSION["login"] != 1)
   <!-- iCheck -->
   <link rel="stylesheet" href="lib/AdminLTE/plugins/iCheck/square/blue.css">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+  <!-- Dark-Mode Patch -->
+<?php
+if ($ENABLED_DARKMODE === True) {
+   echo '<link rel="stylesheet" href="css/dark-patch.css">';
+   $BACKGROUND_IMAGE_PATCH='style="background-image: url(\'img/boxed-bg-dark.png\');"';
+} else { $BACKGROUND_IMAGE_PATCH='style="background-image: url(\'img/background.png\');"';}
+?>
 
   <link rel="stylesheet" href="/front/css/offline-font.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="/pialert/index2.php"><b>Pi.</b>Alert</a>
+    <a href="/pialert/index2.php">Pi.<b>Alert</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -98,14 +121,14 @@ if ($_SESSION["login"] != 1)
   </div>
   <!-- /.login-box-body -->
 
-
-<div class="box-body" style="margin-top: 50px;">
-  <div class="callout callout-danger">
-    <h4>Password Alert!</h4>
-    <p><?php echo $login_info;?></p>
-    <p>To set a new password run:<br><span style="border: solid 1px yellow; padding: 2px;">./reset_password.sh yournewpassword</span><br>in the config folder.</p>
+  <div class="box-body" style="margin-top: 50px;">
+      <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4><i class="icon fa fa-ban"></i>Password Alert!</h4>
+          <p><?php echo $login_info;?></p>
+          <p>To set a new password run:<br><span style="border: solid 1px yellow; padding: 2px;">./reset_password.sh yournewpassword</span><br>in the config folder.</p>
+      </div>
   </div>
-</div>
 
 
 </div>
